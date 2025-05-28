@@ -1,0 +1,120 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package com.mycompany.api.mercado.livre;
+
+
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.enterprise.context.ApplicationScoped;
+
+import jakarta.ws.rs.client.Client;
+import jakarta.ws.rs.client.ClientBuilder;
+import jakarta.ws.rs.client.WebTarget;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
+import java.io.IOException;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
+@ApplicationScoped
+public class MercadoLivreService {
+    private static final String URL_BASE = "https://api.mercadolibre.com/items?ids=";
+    
+    private Client client = ClientBuilder.newClient();
+    private ObjectMapper mapper = new ObjectMapper();
+    
+    public Produto importarProduto(String ids) {
+        String token = "APP_USR-8021611602487823-052811-90b99d5f9a5d9e0d8fc958c37e6406ef-445066511";
+        WebTarget target = client.target(URL_BASE + ids);
+        
+        
+        Response response = target
+        .request(MediaType.APPLICATION_JSON)
+        .header("Authorization", "Bearer " + token)
+        .get();
+        
+        if(response.getStatus()!= 200) {
+            throw new RuntimeException("Erro ao buscar produto Mercado Livre, status: " + response.getStatus());
+        }
+        String json = response.readEntity(String.class);
+        
+        try {
+            List<MercadoLivreWrapperDTO> dtos = mapper.readValue(json, new TypeReference<List<MercadoLivreWrapperDTO>>(){}
+            );
+            
+            List<Produto> produtos = new ArrayList<>();
+            for(MercadoLivreWrapperDTO wrapper: dtos) {
+            Produto produto = converterParaProduto(wrapper.getBody());
+            produtos.add(produto);
+                
+            }
+            return (Produto) produtos;
+            
+            
+        } catch (IOException e) {
+            throw new RuntimeException("Erro ao ler JSON do produto", e);
+        }
+        
+        
+        
+    }
+    
+    public List<Produto> importarProdutos(List<String> ids) {
+        List<Produto> produtos = new ArrayList<>();
+        for (String id : ids) {
+            Produto produto = importarProduto(id);
+            produtos.add(produto);
+        }
+        return produtos;
+    }
+    
+        private Produto converterParaProduto(MercadoLivreProdutoDTO dto) {
+            Produto p = new Produto();
+            p.setId(dto.getId());
+            p.setTitle(dto.getTitle());
+            p.setSellerId(dto.getSeller_id());
+            p.setIdCategoria(dto.getCategory_id());
+            p.setPrice(dto.getPrice());
+            p.setQnt(dto.getAvailable_quantity());
+            p.setGarantia(verificarGarantia(dto));
+            p.setPermalink(dto.getPermalink());
+            p.setThumbnail(dto.getThumbnail());
+            p.setShippingMode(dto.getShipping().getMode());
+            p.setLogisticType(dto.getShipping().getLogistic_type());
+            p.setStatus(dto.getStatus());
+            p.setDataCreated(LocalDate.now());
+            
+            if(p.isGarantia()){
+                Garantia g = new Garantia();
+                g.setId ("Garantia_"+p.getId());
+                g.setDuracaoMeses(extrairDuracaoMeses(dto));
+                g.setOrigem(extrairOrigemGarantia(dto));
+                p.setDadosGarantia(g);
+            }
+            return p;
+        }
+        private boolean verificarGarantia(MercadoLivreProdutoDTO dto) {
+            return dto.getSale_terms().stream()
+                    .anyMatch(term->"WARRANTY_TIME".equals(term.getId()) && term.getValue_struct() != null);
+        }
+        
+        private String extrairOrigemGarantia(MercadoLivreProdutoDTO dto) {
+            return dto.getSale_terms().stream()
+                .filter(term -> "WARRANTY_TYPE".equals(term.getId()))
+                .findFirst()
+                .map(term -> term.getValue_name())
+                .orElse("Não Informada");
+        }
+        
+        private Integer extrairDuracaoMeses(MercadoLivreProdutoDTO dto) {
+            return dto.getSale_terms().stream()
+                .filter(term -> "WARRANTY_TYPE".equals(term.getId()))
+                .findFirst()
+                .map(term -> term.getValue_struct().getNumber())
+                .orElse(0);
+        }
+}

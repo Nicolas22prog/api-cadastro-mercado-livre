@@ -1,0 +1,14 @@
+com\mycompany\api\mercado\livre\MercadoLivreService$1.class
+com\mycompany\api\mercado\livre\Produto.class
+com\mycompany\api\mercado\livre\DadosImportacao.class
+com\mycompany\api\mercado\livre\Shipping.class
+com\mycompany\api\mercado\livre\JakartaRestConfiguration.class
+com\mycompany\api\mercado\livre\resources\JakartaEE10Resource.class
+com\mycompany\api\mercado\livre\ValueStruct.class
+com\mycompany\api\mercado\livre\Garantia.class
+com\mycompany\api\mercado\livre\SaleTerm.class
+com\mycompany\api\mercado\livre\ProdutoResource.class
+com\mycompany\api\mercado\livre\MercadoLivreProdutoDTO.class
+com\mycompany\api\mercado\livre\MercadoLivreService.class
+com\mycompany\api\mercado\livre\MercadoLivreWrapperDTO.class
+com\mycompany\api\mercado\livre\ProdutoDTO.class
