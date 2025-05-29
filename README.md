@@ -97,7 +97,7 @@ CREATE TABLE produtos (
 ) ENGINE=InnoDB;
 ```
 5. **Autenticação do mercado livre**
-   -Usuario que for testar devera ter um token de vendedor do mercado livre para que funcione
+   - Usuario que for testar devera ter um token de vendedor do mercado livre para que funcione
     
 7. **Implante o arquivo `.war` gerado no servidor de aplicação**
 
