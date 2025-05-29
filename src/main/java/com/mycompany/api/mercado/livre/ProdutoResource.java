@@ -30,12 +30,19 @@ public class ProdutoResource {
     @Inject
     private MercadoLivreService mls;
     
+    
+    @GET
+    @Transactional
+    public List<Produto> listar(){
+         return em.createQuery("SELECT p FROM Produto p",Produto.class ).getResultList();
+    }
+    
     @GET
     @Path("/importar")
     @Transactional
     public Response importarVarios(@QueryParam("ids")String idsParam) {
-        List<String> ids = List.of(idsParam.split(","));
-        List<Produto> produtos = mls.importarProdutos(ids);
+       
+        List<Produto> produtos = mls.importarProduto(idsParam);
         for (Produto p : produtos) {
             em.persist(p);
         }

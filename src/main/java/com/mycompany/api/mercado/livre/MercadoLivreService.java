@@ -27,8 +27,8 @@ public class MercadoLivreService {
     private Client client = ClientBuilder.newClient();
     private ObjectMapper mapper = new ObjectMapper();
     
-    public Produto importarProduto(String ids) {
-        String token = "APP_USR-8021611602487823-052811-90b99d5f9a5d9e0d8fc958c37e6406ef-445066511";
+    public List<Produto> importarProduto(String ids) {
+        String token = "APP_USR-8021611602487823-052903-02a14017d62a1e91b8c93df293a74000-445066511";
         WebTarget target = client.target(URL_BASE + ids);
         
         
@@ -52,7 +52,7 @@ public class MercadoLivreService {
             produtos.add(produto);
                 
             }
-            return (Produto) produtos;
+            return  produtos;
             
             
         } catch (IOException e) {
@@ -63,14 +63,7 @@ public class MercadoLivreService {
         
     }
     
-    public List<Produto> importarProdutos(List<String> ids) {
-        List<Produto> produtos = new ArrayList<>();
-        for (String id : ids) {
-            Produto produto = importarProduto(id);
-            produtos.add(produto);
-        }
-        return produtos;
-    }
+ 
     
         private Produto converterParaProduto(MercadoLivreProdutoDTO dto) {
             Produto p = new Produto();
@@ -88,7 +81,9 @@ public class MercadoLivreService {
             p.setStatus(dto.getStatus());
             p.setDataCreated(LocalDate.now());
             
-            if(p.isGarantia()){
+            boolean temGarantia = verificarGarantia(dto);
+            p.setGarantia(temGarantia);
+            if(temGarantia){
                 Garantia g = new Garantia();
                 g.setId ("Garantia_"+p.getId());
                 g.setDuracaoMeses(extrairDuracaoMeses(dto));
@@ -98,11 +93,13 @@ public class MercadoLivreService {
             return p;
         }
         private boolean verificarGarantia(MercadoLivreProdutoDTO dto) {
+            if (dto.getSale_terms() == null) return false;
             return dto.getSale_terms().stream()
                     .anyMatch(term->"WARRANTY_TIME".equals(term.getId()) && term.getValue_struct() != null);
         }
         
         private String extrairOrigemGarantia(MercadoLivreProdutoDTO dto) {
+            if (dto.getSale_terms() == null) return "Não Informada";
             return dto.getSale_terms().stream()
                 .filter(term -> "WARRANTY_TYPE".equals(term.getId()))
                 .findFirst()
@@ -111,10 +108,13 @@ public class MercadoLivreService {
         }
         
         private Integer extrairDuracaoMeses(MercadoLivreProdutoDTO dto) {
+            
             return dto.getSale_terms().stream()
-                .filter(term -> "WARRANTY_TYPE".equals(term.getId()))
+                .filter(term -> "WARRANTY_TIME".equals(term.getId()))
+                .map(SaleTerm::getValue_struct)
+                .filter(vs -> vs != null && vs.getNumber() != null)
+                .map(ValueStruct::getNumber)
                 .findFirst()
-                .map(term -> term.getValue_struct().getNumber())
                 .orElse(0);
-        }
+}
 }

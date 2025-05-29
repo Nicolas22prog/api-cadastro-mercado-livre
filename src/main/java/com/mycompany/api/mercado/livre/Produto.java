@@ -35,7 +35,7 @@ public class Produto implements Serializable{
     private String status;
     private LocalDate dataCreated;
     
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "garantia_id")
     private Garantia dadosGarantia;
     

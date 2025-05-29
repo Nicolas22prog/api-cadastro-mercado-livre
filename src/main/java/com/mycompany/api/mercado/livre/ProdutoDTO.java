@@ -35,24 +35,33 @@ public class ProdutoDTO {
     
     
     public Produto converterParaProduto(ProdutoDTO dto) {
-        Produto produto = new Produto();
-        produto.setId(dto.getId());
-        produto.setTitle(dto.getTitle());
-        produto.setSellerId(dto.getSeller_id());
-        produto.setIdCategoria(dto.getCategory_id());
-        produto.setPrice(dto.getPrice());
-        produto.setQnt(dto.getAvailable_quantity());
-        
-        Garantia garantia = new Garantia();
-        for(SaleTerm term : dto.getSale_terms()){
-            if("WARRANTY_TIME".equals(term.getId()) && term.getValue_struct()!= null) {
+    Produto produto = new Produto();
+    produto.setId(dto.getId());
+    produto.setTitle(dto.getTitle());
+    produto.setSellerId(dto.getSeller_id());
+    produto.setIdCategoria(dto.getCategory_id());
+    produto.setPrice(dto.getPrice());
+    produto.setQnt(dto.getAvailable_quantity());
+
+    Garantia garantia = new Garantia();
+    boolean temGarantia = false;
+
+    for (SaleTerm term : dto.getSale_terms()) {
+        if ("WARRANTY_TIME".equals(term.getId()) && term.getValue_struct() != null) {
+            if (term.getValue_struct().getNumber() != null) {
                 garantia.setDuracaoMeses(term.getValue_struct().getNumber());
-            } else if ("WARRANTY_TIME".equals(term.getId())){
-                garantia.setOrigem(term.getValue_name());
+                temGarantia = true;
             }
+        } else if ("WARRANTY_TYPE".equals(term.getId())) {
+            garantia.setOrigem(term.getValue_name());
         }
-        produto.setGarantia(true);
-        produto.setDadosGarantia(garantia);
-        return produto;
     }
+
+    produto.setGarantia(temGarantia);
+    if (temGarantia) {
+        produto.setDadosGarantia(garantia);
+    }
+
+    return produto;
+}
 }
