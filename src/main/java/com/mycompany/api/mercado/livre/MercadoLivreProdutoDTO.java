@@ -6,6 +6,7 @@ package com.mycompany.api.mercado.livre;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -22,7 +23,7 @@ public class MercadoLivreProdutoDTO {
     private Shipping shipping;
     private String status;
     private List<SaleTerm> sale_terms;
-    
+    private String date_created;
     
     
     public String getId(){return id;}
@@ -46,5 +47,7 @@ public class MercadoLivreProdutoDTO {
     public String getStatus(){return status;}
     public void setStatus(String status) {this.status=status;}
     public List<SaleTerm> getSale_terms(){return sale_terms;}
-    public void setSale_terms(List<SaleTerm> sale_terms) {this.sale_terms=sale_terms;}   
+    public void setSale_terms(List<SaleTerm> sale_terms) {this.sale_terms=sale_terms;}  
+    public String getDate_created(){return date_created;}
+    public void setDate_created(String date_created) {this.date_created=date_created;}
 }

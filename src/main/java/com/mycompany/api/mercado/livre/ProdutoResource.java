@@ -53,7 +53,7 @@ public class ProdutoResource {
     //Buscar por IDs que já existam no banco
     
     List<String> idsExistentes = em.createQuery(
-            "SELECT p.idExterno FROM Produto p WHERE p.idExterno IN :ids", String.class)
+            "SELECT p.id FROM Produto p WHERE p.id IN :ids", String.class)
             .setParameter("ids", idsRecebidos)
             .getResultList();
     

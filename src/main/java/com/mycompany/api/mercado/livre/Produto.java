@@ -6,8 +6,6 @@ package com.mycompany.api.mercado.livre;
 
 import jakarta.persistence.*;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import java.io.Serializable;
@@ -33,7 +31,7 @@ public class Produto implements Serializable{
     private String shippingMode;
     private String logisticType;
     private String status;
-    private LocalDate dataCreated;
+    private String date_created;
     
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "garantia_id")
@@ -65,8 +63,8 @@ public class Produto implements Serializable{
     public void setLogisticType(String logisticType) {this.logisticType=logisticType;}
     public String getStatus(){return status;}
     public void setStatus(String status) {this.status=status;}
-    public LocalDate getDataCreated() {return dataCreated;}
-    public void setDataCreated(LocalDate dataCreated) {this.dataCreated=dataCreated;}
+    public String getDate_created() {return date_created;}
+    public void setDate_created(String date_created) {this.date_created=date_created;}
     public Garantia getDadosGarantia(){return dadosGarantia;}
     public void setDadosGarantia(Garantia dadosGarantia) {this.dadosGarantia=dadosGarantia;}
 }

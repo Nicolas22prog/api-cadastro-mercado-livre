@@ -15,8 +15,6 @@ import jakarta.ws.rs.client.WebTarget;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import java.io.IOException;
-
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,10 +26,10 @@ public class MercadoLivreService {
     private ObjectMapper mapper = new ObjectMapper();
     
     public List<Produto> importarProduto(String ids) {
-        String token = "APP_USR-8021611602487823-052903-02a14017d62a1e91b8c93df293a74000-445066511";
+        String token = "APP_USR-8021611602487823-052912-9259991a9f99e19f52893a25f824c84a-445066511";
         WebTarget target = client.target(URL_BASE + ids);
         
-        
+       
         Response response = target
         .request(MediaType.APPLICATION_JSON)
         .header("Authorization", "Bearer " + token)
@@ -79,7 +77,7 @@ public class MercadoLivreService {
             p.setShippingMode(dto.getShipping().getMode());
             p.setLogisticType(dto.getShipping().getLogistic_type());
             p.setStatus(dto.getStatus());
-            p.setDataCreated(LocalDate.now());
+            p.setDate_created(dto.getDate_created());
             
             boolean temGarantia = verificarGarantia(dto);
             p.setGarantia(temGarantia);
