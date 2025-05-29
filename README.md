@@ -66,7 +66,7 @@ cd api-cadastro-mercado-livre
 mvn clean install
 ```
 4. **Configure o banco de dados criando o schema chamado mercado_livre e crie duas tabelas com o seguinte comando:**
-   - 
+  ```
 CREATE TABLE garantias (
     id INT AUTO_INCREMENT PRIMARY KEY,
     tipo VARCHAR(100) NOT NULL,           -- Ex: "fabricante", "loja"
@@ -83,7 +83,7 @@ CREATE TABLE produtos (
     price DECIMAL(10,2) NOT NULL,
     category_id VARCHAR(100),
     available_quantity INT NOT NULL,
-    garantia tyneint(1),
+    garantia tinyint(1),
     permalink VARCHAR(500),
     thumbnail VARCHAR(500),
     shippingMode VARCHAR(500),
@@ -95,7 +95,7 @@ CREATE TABLE produtos (
         ON DELETE SET NULL
         ON UPDATE CASCADE
 ) ENGINE=InnoDB;
-
+```
 5. **Autenticação do mercado livre**
    -Usuario que for testar devera ter um token de vendedor do mercado livre para que funcione
     
