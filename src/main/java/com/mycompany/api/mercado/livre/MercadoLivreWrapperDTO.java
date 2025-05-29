@@ -9,6 +9,7 @@ public class MercadoLivreWrapperDTO {
     private int code;
     private MercadoLivreProdutoDTO body;
     
+    //getter e setter para transformar em lista
     public int getCode(){ return code;}
     public void setCode(int code){this.code=code;}
     

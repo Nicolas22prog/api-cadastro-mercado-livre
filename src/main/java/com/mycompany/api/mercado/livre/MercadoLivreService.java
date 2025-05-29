@@ -20,16 +20,20 @@ import java.util.List;
 
 @ApplicationScoped
 public class MercadoLivreService {
+    //url da api do mercado livre que retorna os produtos
     private static final String URL_BASE = "https://api.mercadolibre.com/items?ids=";
     
     private Client client = ClientBuilder.newClient();
     private ObjectMapper mapper = new ObjectMapper();
     
     public List<Produto> importarProduto(String ids) {
+        //adiciona o token para autenticação do usuario
         String token = "APP_USR-8021611602487823-052912-9259991a9f99e19f52893a25f824c84a-445066511";
+        
+        //concatenacao da url com os IDs dos produtos escolhidos para o cadastro, MAXIMO 20 itens por request
         WebTarget target = client.target(URL_BASE + ids);
         
-       
+       // adiciona o token na requisicao
         Response response = target
         .request(MediaType.APPLICATION_JSON)
         .header("Authorization", "Bearer " + token)
@@ -38,14 +42,18 @@ public class MercadoLivreService {
         if(response.getStatus()!= 200) {
             throw new RuntimeException("Erro ao buscar produto Mercado Livre, status: " + response.getStatus());
         }
+        
+        // ler a entidade que recebe do servidor e armazena em "json"
         String json = response.readEntity(String.class);
         
+        //transforma em uma lista 
         try {
             List<MercadoLivreWrapperDTO> dtos = mapper.readValue(json, new TypeReference<List<MercadoLivreWrapperDTO>>(){}
             );
             
             List<Produto> produtos = new ArrayList<>();
             for(MercadoLivreWrapperDTO wrapper: dtos) {
+                
             Produto produto = converterParaProduto(wrapper.getBody());
             produtos.add(produto);
                 
@@ -62,7 +70,7 @@ public class MercadoLivreService {
     }
     
  
-    
+        // transforma o json em um objeto produto
         private Produto converterParaProduto(MercadoLivreProdutoDTO dto) {
             Produto p = new Produto();
             p.setId(dto.getId());
@@ -90,6 +98,8 @@ public class MercadoLivreService {
             }
             return p;
         }
+        
+        //verifica se existe garantia no produto, caso nao exista ele registra como undefined e nao cadastra os atributos de origem e duracao
         private boolean verificarGarantia(MercadoLivreProdutoDTO dto) {
             if (dto.getSale_terms() == null) return false;
             return dto.getSale_terms().stream()

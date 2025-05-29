@@ -34,7 +34,7 @@ public class ProdutoResource {
     @Inject
     private MercadoLivreService mls;
     
-    
+    //endpoint para exibir os produtos cadastrados no banco de dados 
     @GET
     @Transactional
     public List<Produto> listar(){
@@ -64,7 +64,7 @@ public class ProdutoResource {
             .collect(Collectors.toList());
     
     
-    //IMporta os produtos restantes
+    //Importa os produtos restantes
     
     List<Produto> produtosImportados= new ArrayList<>();
     for (String id : idsParaImportar) {

@@ -6,7 +6,6 @@ package com.mycompany.api.mercado.livre;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -25,7 +24,7 @@ public class MercadoLivreProdutoDTO {
     private List<SaleTerm> sale_terms;
     private String date_created;
     
-    
+    //getter e setter para a conversao de body para objeto
     public String getId(){return id;}
     public void setId(String id) {this.id=id;}
     public String getTitle() {return title;}
