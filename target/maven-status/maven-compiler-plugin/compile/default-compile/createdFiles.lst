@@ -11,4 +11,3 @@ com\mycompany\api\mercado\livre\ProdutoResource.class
 com\mycompany\api\mercado\livre\MercadoLivreProdutoDTO.class
 com\mycompany\api\mercado\livre\MercadoLivreService.class
 com\mycompany\api\mercado\livre\MercadoLivreWrapperDTO.class
-com\mycompany\api\mercado\livre\ProdutoDTO.class
