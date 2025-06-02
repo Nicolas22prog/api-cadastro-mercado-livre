@@ -28,7 +28,7 @@ public class MercadoLivreService {
     
     public List<Produto> importarProduto(String ids) {
         //adiciona o token para autenticação do usuario
-        String token = "APP_USR-8021611602487823-052912-9259991a9f99e19f52893a25f824c84a-445066511";
+        String token = "APP_USR-8021611602487823-060207-ebfd99b8cdb6b1d5d4dcdab5c9f89bff-445066511";
         
         //concatenacao da url com os IDs dos produtos escolhidos para o cadastro, MAXIMO 20 itens por request
         WebTarget target = client.target(URL_BASE + ids);

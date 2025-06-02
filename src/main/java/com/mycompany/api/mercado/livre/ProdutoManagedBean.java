@@ -8,13 +8,14 @@ import jakarta.ejb.EJB;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Named;
 import java.io.Serializable;
+import java.util.List;
 
 @Named
 @ViewScoped
 public class ProdutoManagedBean implements Serializable{
     
     @EJB
-    private ProdutoBean produtoBean;
+    private ProdutoBean pb;
     
     private Produto produto = new Produto();
     
@@ -27,7 +28,11 @@ public class ProdutoManagedBean implements Serializable{
     }
     
     
-    public void listar() {
-        produtoBean.getProdutos();
+    public List<Produto> listar() {
+        return pb.getProdutos();
+    }
+    
+    public List<Garantia> listarGarantia(){
+        return pb.getGarantias();
     }
 }

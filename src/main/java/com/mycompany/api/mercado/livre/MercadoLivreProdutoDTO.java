@@ -23,6 +23,7 @@ public class MercadoLivreProdutoDTO {
     private String status;
     private List<SaleTerm> sale_terms;
     private String date_created;
+    //private int backend_order;
     
     //getter e setter para a conversao de body para objeto
     public String getId(){return id;}
