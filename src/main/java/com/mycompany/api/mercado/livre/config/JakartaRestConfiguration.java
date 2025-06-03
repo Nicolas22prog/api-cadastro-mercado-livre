@@ -1,4 +1,4 @@
-package com.mycompany.api.mercado.livre;
+package com.mycompany.api.mercado.livre.config;
 
 import jakarta.ws.rs.ApplicationPath;
 import jakarta.ws.rs.core.Application;

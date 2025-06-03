@@ -30,6 +30,10 @@
         <f:facet name="header">Garantia</f:facet>
         #{p.garantia}
     </h:column>
+               <h:column>
+                   <f:facet name="header">Id da garantia</f:facet>
+                   #{p.dadosGarantia}
+               </h:column>
     <h:column>
         <f:facet name="header">Link</f:facet>
         <h:outputLink value="#{p.permalink}" target="_blank">Abrir</h:outputLink></h:column>
@@ -37,7 +41,22 @@
             
         </h:form>
         <h:form>
-            
+            <h:column>
+                   <h:dataTable value="#{produtoManagedBean.listarGarantia()}" var="g" border="1">
+                       <h:column>
+                           <f:facet name="header">ID</f:facet>
+                           #{g.id}
+                       </h:column>
+                       <h:column><f:facet name="header">Duração da garantia</f:facet>
+                       #{g.duracaoMeses}
+                       </h:column>
+                       <h:column>
+                           <f:facet name="header">Origem da garantia</f:facet>
+                           #{g.origem}
+                       </h:column>
+                       
+                   </h:dataTable>
+               </h:column>
         </h:form>
         
     </body>

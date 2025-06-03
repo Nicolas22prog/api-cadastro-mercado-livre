@@ -4,8 +4,9 @@
  */
 package com.mycompany.api.mercado.livre;
 
-import jakarta.ejb.EJB;
+
 import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import java.io.Serializable;
 import java.util.List;
@@ -14,7 +15,7 @@ import java.util.List;
 @ViewScoped
 public class ProdutoManagedBean implements Serializable{
     
-    @EJB
+    @Inject
     private ProdutoBean pb;
     
     private Produto produto = new Produto();
