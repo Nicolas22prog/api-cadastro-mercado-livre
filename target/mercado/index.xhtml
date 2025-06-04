@@ -5,9 +5,46 @@
     <head>
         <title>Produtos</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></meta>
+        <style>
+            body{
+                font-family: monospace,sans-serif;
+                font-size: 14px; 
+                background-color: #cccccc;
+            }
+            .title{
+                display: block;
+                text-align: center;
+                font-size: 24px;
+                font-weight: bold;
+                
+            }
+            
+            .lists {
+                display: flex;
+                flex-direction: row;
+                align-content: space-between;
+                padding: 14px;
+                justify-content: center;
+                
+
+            }
+            #produtos {
+                border-radius: 50px;
+                margin: 15px;
+            }
+            #garantias{
+                border-radius: 50px;
+                margin: 15px;
+            }
+            
+        </style>
     </head>
     <body>
-        <h1>Lista dos produtos importados</h1>
+            
+        <h1 class="title">Lista dos produtos importados</h1>
+        <div class="lists">
+            <div id="produtos">
+                
         <h:form>
            <h:dataTable value="#{produtoManagedBean.listar()}" var="p" border="1">
     <h:column>
@@ -30,9 +67,10 @@
         <f:facet name="header">Garantia</f:facet>
         #{p.garantia}
     </h:column>
+                
                <h:column>
                    <f:facet name="header">Id da garantia</f:facet>
-                   #{p.dadosGarantia}
+                   #{p.dadosGarantia.id}
                </h:column>
     <h:column>
         <f:facet name="header">Link</f:facet>
@@ -40,6 +78,9 @@
 </h:dataTable>
             
         </h:form>
+            </div>
+            <div id="garantias">
+                
         <h:form>
             <h:column>
                    <h:dataTable value="#{produtoManagedBean.listarGarantia()}" var="g" border="1">
@@ -59,5 +100,7 @@
                </h:column>
         </h:form>
         
+            </div>
+        </div>
     </body>
 </html>

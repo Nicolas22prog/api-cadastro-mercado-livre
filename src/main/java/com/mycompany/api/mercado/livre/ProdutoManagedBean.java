@@ -19,7 +19,7 @@ public class ProdutoManagedBean implements Serializable{
     private ProdutoBean pb;
     
     private Produto produto = new Produto();
-    
+    private Garantia garantia = new Garantia();
     public Produto getProduct() {
         return produto;
     }
@@ -28,6 +28,12 @@ public class ProdutoManagedBean implements Serializable{
         this.produto = produto;
     }
     
+    public Garantia getGarantia(){
+        return garantia;
+    }
+    public void setGarantia(Garantia garantia) {
+        this.garantia=garantia;
+    }
     
     public List<Produto> listar() {
         return pb.getProdutos();
